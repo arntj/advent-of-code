@@ -1,9 +1,9 @@
-const Register = require('../util/Register');
-const splitLines = require('../util/splitLines');
+const Register = require('./Register');
+const splitLines = require('./splitLines');
 
 class Program {
-  constructor(id, instructions) {
-    this._register = new Register({ p: id });
+  constructor(id, instructions, initRegister) {
+    this._register = new Register(initRegister);
     this._id = id;
     this._instructions = splitLines(instructions);
     this._i = 0;
@@ -12,6 +12,7 @@ class Program {
     this._terminated = false;
     this._waiting = false;
     this._sendCount = 0;
+    this._mulCount = 0;
   }
 
   get terminated() {
@@ -38,8 +39,16 @@ class Program {
     this._friend = program;
   }
 
+  get mulCount() {
+    return this._mulCount;
+  }
+
   receive(value) {
     this._queue.push(value);
+  }
+
+  getRegisterValue(name) {
+    return this._register.get(name);
   }
 
   next() {
@@ -47,6 +56,8 @@ class Program {
       return;
     }
     if (this._i >= this._instructions.length) {
+      this._terminated = true;
+      this._waiting = false;
       return;
     }
 
@@ -78,8 +89,12 @@ class Program {
     if (cmd === 'add') {
       this._register.add(x, y);
     }
+    if (cmd === 'sub') {
+      this._register.sub(x, y);
+    }
     if (cmd === 'mul') {
       this._register.mul(x, y);
+      this._mulCount++;
     }
     if (cmd === 'mod') {
       this._register.mod(x, y);
@@ -92,6 +107,16 @@ class Program {
         xVal = this._register.get(x);
 
       if (xVal > 0)
+        this._i += y - 1;
+    }
+    if (cmd === 'jnz') {
+      let xVal = 0;
+      if (/^-?\d+$/.test(x))
+        xVal = parseInt(x);
+      else
+        xVal = this._register.get(x);
+
+      if (xVal !== 0)
         this._i += y - 1;
     }
     if (cmd === 'rcv') {
@@ -116,6 +141,12 @@ class Program {
       }
     }
     this._i++;
+  }
+
+  runToEnd() {
+    while (!this._terminated) {
+      this.next();
+    }
   }
 }
 
