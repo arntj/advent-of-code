@@ -1,19 +1,17 @@
 file = open("input.txt", "r")
-numbers = file.readlines()
+numbers = [ int(x) for x in file.read().splitlines() ]
 
-frequencies = []
-count = 0
+frequencies = set()
+index = 0
 currFreq = 0
 
-while True:
-  if currFreq in frequencies:
-    break
+while currFreq not in frequencies:
+  frequencies.add(currFreq)
 
-  frequencies.append(currFreq)
-
-  index = count % len(numbers)
-  val = int(numbers[index])
-  currFreq += val
-  count += 1
+  if index == len(numbers):
+    index = 0
+  
+  currFreq += numbers[index]
+  index += 1
 
 print(currFreq)
