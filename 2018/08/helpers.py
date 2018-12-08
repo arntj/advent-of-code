@@ -19,7 +19,7 @@ def parse_node(input_values):
 
 def sum_metadata(node):
   (children, metadata) = node
-  return sum(map(sum_metadata, children)) + sum(metadata)
+  return sum((sum_metadata(c) for c in children)) + sum(metadata)
 
 def calculate_node_value(node):
   (children, metadata) = node
