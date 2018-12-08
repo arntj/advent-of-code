@@ -4,7 +4,6 @@ def parse_node(input_values):
   remaining_values = input_values[2:]
 
   children = []
-  metadata = []
 
   while children_count > 0:
     (child, values) = parse_node(remaining_values)
