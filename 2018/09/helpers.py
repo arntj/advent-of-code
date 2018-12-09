@@ -8,30 +8,30 @@ class Marble:
     self.next = next if next != None else self
 
   def next_n(self, n: int):
-    curr_marble = self
+    current_marble = self
     i = n
     while i > 0:
-      curr_marble = curr_marble.next
+      current_marble = current_marble.next
       i -= 1
 
-    return curr_marble
+    return current_marble
 
   def prev_n(self, n: int):
-    curr_marble = self
+    current_marble = self
     i = n
     while i > 0:
-      curr_marble = curr_marble.prev
+      current_marble = current_marble.prev
       i -= 1
 
-    return curr_marble
+    return current_marble
 
 def marbles_to_list(marble: Marble):
   result = [ marble.value ]
-  curr_marble = marble.next
+  current_marble = marble.next
 
-  while curr_marble != marble:
-    result.append(curr_marble.value)
-    curr_marble = curr_marble.next
+  while current_marble != marble:
+    result.append(current_marble.value)
+    current_marble = current_marble.next
 
   return result
 

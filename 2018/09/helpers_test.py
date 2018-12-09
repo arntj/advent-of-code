@@ -51,7 +51,7 @@ class HelpersTests(unittest.TestCase):
     # arrange
     test_list = [ 4, 7, 88, 9, 11 ]
     first_marble = list_to_marbles(test_list)
-    marble = first_marble.next.next
+    marble = first_marble.next_n(2)
 
     # act
     insert_marble_after(marble, 5)
@@ -64,7 +64,7 @@ class HelpersTests(unittest.TestCase):
     # arrange
     test_list = [ 4, 7, 88, 9, 11 ]
     first_marble = list_to_marbles(test_list)
-    marble = first_marble.next.next
+    marble = first_marble.next_n(2)
 
     # act
     result = remove_marble(marble)
@@ -78,7 +78,7 @@ class HelpersTests(unittest.TestCase):
     # arrange
     test_list = [ 4, 7, 88, 9, 11 ]
     first_marble = list_to_marbles(test_list)
-    marble = first_marble.next.next
+    marble = first_marble.next_n(2)
 
     # act
     remove_marble(marble)
