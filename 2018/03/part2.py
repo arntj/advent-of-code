@@ -1,6 +1,4 @@
 from parse import parse
-from copy import copy
-from collections import namedtuple
 
 file = open("input.txt", "r")
 lines = file.readlines()
