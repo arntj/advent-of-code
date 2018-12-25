@@ -79,9 +79,8 @@ for i in range(1, n + 1):
       previous_time = history[forest_str]
       cycle_time = i - previous_time
 
-  if cycle_time != None and (n - i) % cycle_time == 0:
+    history[forest_str] = i
+  elif (n - i) % cycle_time == 0:
     break
-
-  history[forest_str] = i
 
 print("Part 2 solution:", calculate_score(forest))
