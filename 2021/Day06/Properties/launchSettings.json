@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Day06": {
+      "commandName": "Project"
+    },
+    "Day06 debug": {
+      "commandName": "Project",
+      "commandLineArgs": "-d"
+    }
+  }
+}
