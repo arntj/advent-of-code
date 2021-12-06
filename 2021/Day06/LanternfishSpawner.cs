@@ -6,33 +6,27 @@
         {
             IEnumerable<int> initialFishes = input.Split(',').Select(int.Parse);
 
-            // creating an array to count how many fishes will be spawned every day
-            long[] spawns = new long[days];
+            // create an index for how many fishes is in each state (days left to next spawn)
+            long[] fishes = Enumerable.Range(0, 9).Select(i => (long)initialFishes.Where(fish => fish == i).Count()).ToArray();
 
-            // add initial fishes
-            foreach(int f in initialFishes)
-            {
-                for (int i = f; i < days; i += 7)
-                {
-                    spawns[i] += 1;
-                }
-            }
-
-            // working through every day and gradually add more fish as they spawn
             for (int i = 0; i < days; i++)
             {
-                long newFishes = spawns[i];
-                if (newFishes > 0)
+                long fishesToSpawn = fishes[0];
+
+                // shift all fishes one position to the left (subtract one day to next spawn)
+                for (int j = 1; j < fishes.Length; j++)
                 {
-                    // adding spawn rates for new fishes
-                    for (int j = i + 9; j < days; j += 7)
-                    {
-                        spawns[j] += newFishes;
-                    }
+                    fishes[j - 1] = fishes[j];
                 }
+
+                // spawn new fishes
+                fishes[8] = fishesToSpawn;
+
+                // the fishes that spawned now have seven days till next spawn
+                fishes[6] += fishesToSpawn;
             }
 
-            return initialFishes.Count() + spawns.Sum();
+            return fishes.Sum();
         }
     }
 }
