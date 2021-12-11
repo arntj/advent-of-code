@@ -87,7 +87,7 @@
 
                 Console.Write(i);
                 
-                if (counter > 0 && counter % octopusMap.GetLength(0) == 0)
+                if (counter % octopusMap.GetLength(0) == 0)
                 {
                     Console.Write(Environment.NewLine);
                 }
