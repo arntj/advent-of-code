@@ -28,8 +28,7 @@ namespace Day16
         {
             string bits = HexToBinary(code);
 
-            Package package;
-            ParseData(bits, out package);
+            ParseData(bits, out Package package);
 
             return package;
         }
@@ -74,8 +73,7 @@ namespace Day16
 
                     while (i < end)
                     {
-                        Package currentPackage;
-                        i = ParseData(bits, out currentPackage, i);
+                        i = ParseData(bits, out Package currentPackage, i);
                         subPackages.Add(currentPackage);
                     }
                 }
@@ -86,8 +84,7 @@ namespace Day16
                     
                     for (int c = 0; c < count; c++)
                     {
-                        Package currentPackage;
-                        i = ParseData(bits, out currentPackage, i);
+                        i = ParseData(bits, out Package currentPackage, i);
                         subPackages.Add(currentPackage);
                     }
                 }
