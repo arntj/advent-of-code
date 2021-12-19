@@ -134,7 +134,7 @@ namespace Day19
 
         public static Vector<double> TupleToVector((int x, int y, int z) t)
         {
-            return Vector<double>.Build.DenseOfArray(new double[] { t.x, t.y, t.z, 1 });
+            return Vector<double>.Build.DenseOfArray(new double[] { t.x, t.y, t.z });
         }
 
         public static (int x, int y, int z) ApplyMatrix((int x, int y, int z) coords, Matrix<double> matrix)
@@ -150,19 +150,19 @@ namespace Day19
 
         public static IEnumerable<Matrix<double>> GetRotationMatrices()
         {
-            var ident = Matrix<double>.Build.DenseIdentity(4, 4);
+            var ident = Matrix<double>.Build.DenseIdentity(3, 3);
             
-            var x90 = From3DTo4DMatrix(Matrix3D.RotationAroundXAxis(Angle.FromDegrees(90)));
-            var x180 = From3DTo4DMatrix(Matrix3D.RotationAroundXAxis(Angle.FromDegrees(180)));
-            var x270 = From3DTo4DMatrix(Matrix3D.RotationAroundXAxis(Angle.FromDegrees(270)));
+            var x90 = Matrix3D.RotationAroundXAxis(Angle.FromDegrees(90));
+            var x180 = Matrix3D.RotationAroundXAxis(Angle.FromDegrees(180));
+            var x270 = Matrix3D.RotationAroundXAxis(Angle.FromDegrees(270));
 
-            var y90 = From3DTo4DMatrix(Matrix3D.RotationAroundYAxis(Angle.FromDegrees(90)));
-            var y180 = From3DTo4DMatrix(Matrix3D.RotationAroundYAxis(Angle.FromDegrees(180)));
-            var y270 = From3DTo4DMatrix(Matrix3D.RotationAroundYAxis(Angle.FromDegrees(270)));
+            var y90 = Matrix3D.RotationAroundYAxis(Angle.FromDegrees(90));
+            var y180 = Matrix3D.RotationAroundYAxis(Angle.FromDegrees(180));
+            var y270 = Matrix3D.RotationAroundYAxis(Angle.FromDegrees(270));
 
-            var z90 = From3DTo4DMatrix(Matrix3D.RotationAroundZAxis(Angle.FromDegrees(90)));
-            var z180 = From3DTo4DMatrix(Matrix3D.RotationAroundZAxis(Angle.FromDegrees(180)));
-            var z270 = From3DTo4DMatrix(Matrix3D.RotationAroundZAxis(Angle.FromDegrees(270)));
+            var z90 = Matrix3D.RotationAroundZAxis(Angle.FromDegrees(90));
+            var z180 = Matrix3D.RotationAroundZAxis(Angle.FromDegrees(180));
+            var z270 = Matrix3D.RotationAroundZAxis(Angle.FromDegrees(270));
 
             yield return ident;
             yield return z90;
@@ -193,24 +193,6 @@ namespace Day19
             yield return y270 * x90;
             yield return y270 * x180;
             yield return y270 * x270;
-        }
-
-        public static Matrix<double> From3DTo4DMatrix(Matrix<double> matrix)
-        {
-            var supermatrix = Matrix<double>.Build.DenseIdentity(4, 4);
-            supermatrix.SetSubMatrix(0, 0, matrix);
-            return supermatrix;
-        }
-
-        public static Matrix<double> CreateTranslationMatrix((int dx, int dy, int dz) t)
-        {
-            var matrix = Matrix<double>.Build.DenseIdentity(4, 4);
-
-            matrix[0, 3] = t.dx;
-            matrix[1, 3] = t.dy;
-            matrix[2, 3] = t.dz;
-
-            return matrix;
         }
     }
 }
