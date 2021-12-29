@@ -4,13 +4,13 @@ using System.Reflection;
 string dataPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;
 string[] data = File.ReadAllLines(Path.Combine(dataPath, @"Data\input.txt"));
 
-(string image, string algorithm, char infiniteValue) = ImageEnhancer.ParseInput(data);
+var image = new Image(data);
 
-(image, infiniteValue) = ImageEnhancer.Enhance(image, algorithm, infiniteValue);
-(image, infiniteValue) = ImageEnhancer.Enhance(image, algorithm, infiniteValue);
+image.Enhance(2);
+int partOne = image.PointsCount;
 
-int partOne = image.Where(c => c == '#').Count();
-int partTwo = 0;
+image.Enhance(48);
+int partTwo = image.PointsCount;
 
 Console.WriteLine($"Result part one: {partOne}");
 Console.WriteLine($"Result part two: {partTwo}");
