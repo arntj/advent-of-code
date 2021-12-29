@@ -1,16 +1,8 @@
-﻿using System.Diagnostics;
-using System.Text;
-
-namespace Day20
+﻿namespace Day20
 {
-    [DebuggerDisplay($"{{{nameof(ToString)}(),nq}}")]
     public class Image
     {
         private HashSet<(int x, int y)> _points;
-        private int _minX;
-        private int _maxX;
-        private int _minY;
-        private int _maxY;
         private bool _infinityValue;
         private readonly bool[] _algorithm;
 
@@ -21,15 +13,9 @@ namespace Day20
 
             string[] map = input.Skip(2).ToArray();
 
-            _minX = 1;
-            _minY = 1;
-            _maxY = map.Length;
-
             for (int i = 0; i < map.Length; i++)
             {
                 int y = map.Length - i;
-
-                _maxX = map[i].Length;
 
                 for (int j = 0; j < map[i].Length; j++)
                 {
@@ -56,38 +42,37 @@ namespace Day20
 
         private void Enhance()
         {
-            bool nextInfinityValue = _infinityValue ? _algorithm[511] : _algorithm[0];
-            int nextMinX = _minX;
-            int nextMaxX = _maxX;
-            int nextMinY = _minY;
-            int nextMaxY = _maxY;
+            bool nextInfinityValue = _infinityValue ? _algorithm[0b111_111_111] : _algorithm[0];
+            int minX = int.MaxValue;
+            int maxX = int.MinValue;
+            int minY = int.MaxValue;
+            int maxY = int.MinValue;
+
+            foreach ((int x, int y) in _points)
+            {
+                minX = Math.Min(x, minX);
+                maxX = Math.Max(x, maxX);
+                minY = Math.Min(y, minY);
+                maxY = Math.Max(y, maxY);
+            }
 
             var nextPoints = new HashSet<(int x, int y)>();
 
-            for (int y = _minY - 3; y <= _maxY + 3; y++)
+            for (int y = minY - 2; y <= maxY + 2; y++)
             {
-                for (int x = _minX - 3; x <= _maxX + 3; x++)
+                for (int x = minX - 2; x <= maxX + 2; x++)
                 {
                     bool actualValue = GetEnhancedValue(x, y);
 
                     if (actualValue ^ nextInfinityValue)
                     {
                         nextPoints.Add((x, y));
-
-                        nextMinX = Math.Min(x, nextMinX);
-                        nextMaxX = Math.Max(x, nextMaxX);
-                        nextMinY = Math.Min(y, nextMinY);
-                        nextMaxY = Math.Max(y, nextMaxY);
                     }
                 }
             }
 
             _infinityValue = nextInfinityValue;
             _points = nextPoints;
-            _minX = nextMinX;
-            _maxX = nextMaxX;
-            _minY = nextMinY;
-            _maxY = nextMaxY;
         }
 
         private bool GetEnhancedValue(int x, int y)
@@ -102,29 +87,13 @@ namespace Day20
 
                 bool actualValue = _points.Contains((currX, currY)) ^ _infinityValue;
 
-                index += actualValue ? Convert.ToInt32(Math.Pow(2, ex)) : 0;
+                if (actualValue)
+                {
+                    index += 1 << ex;
+                }
             }
 
             return _algorithm[index];
-        }
-
-        public override string ToString()
-        {
-            StringBuilder output = new();
-
-            for (int y = _maxY; y >= _minY; y--)
-            {
-                for (int x = _minX; x <= _maxX; x++)
-                {
-                    bool val = _points.Contains((x, y)) ^ _infinityValue;
-
-                    output.Append(val ? "#" : ".");
-                }
-
-                output.AppendLine();
-            }
-
-            return output.ToString();
         }
 
         public int PointsCount => _points.Count;
