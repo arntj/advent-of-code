@@ -4,7 +4,8 @@ const fs = std.fs;
 const heap = std.heap;
 const mem = std.mem;
 const print = std.debug.print;
-const utils = @import("./utils.zig");
+const part1 = @import("./part1.zig");
+const part2 = @import("./part2.zig");
 
 pub fn main() !void {
     var gpa = heap.GeneralPurposeAllocator(.{}){};
@@ -21,9 +22,8 @@ pub fn main() !void {
     const file_name = args[1];
     const contents = try readFile(allocator, file_name);
 
-    const result = utils.part1Solver(contents);
-
-    print("{d}\n", .{result});
+    print("Part 1 result: {d}\n", .{part1.part1Solver(contents)});
+    print("Part 2 result: {d}\n", .{part2.part2Solver(contents)});
 }
 
 fn readFile(allocator: mem.Allocator, file_name: []const u8) ![]u8 {

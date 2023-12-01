@@ -1,4 +1,5 @@
 const std = @import("std");
+const ascii = std.ascii;
 const mem = std.mem;
 const expectEqual = std.testing.expectEqual;
 
@@ -71,7 +72,7 @@ pub fn part1Solver(text: []const u8) u32 {
             }
         }
 
-        sum += first.? * 10 + last;
+        sum += (first orelse 0) * 10 + last;
     }
 
     return sum;
