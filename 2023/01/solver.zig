@@ -21,6 +21,7 @@ pub fn main() !void {
 
     const file_name = args[1];
     const contents = try readFile(allocator, file_name);
+    defer allocator.free(contents);
 
     print("Part 1 result: {d}\n", .{part1.part1Solver(contents)});
     print("Part 2 result: {d}\n", .{part2.part2Solver(contents)});
