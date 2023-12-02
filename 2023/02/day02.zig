@@ -25,9 +25,9 @@ pub fn main() !void {
     const games = try parser.parseGames(allocator, contents);
     defer parser.freeGames(allocator, games);
 
-    const day_1 = solver.solve(games);
+    const solution = solver.solve(games);
 
-    print("Day 1 solution: {d}\n", .{day_1});
+    print("Day 1 solution: {d}\nDay 2 solution: {d}\n", .{ solution[0], solution[1] });
 }
 
 fn readFile(allocator: mem.Allocator, file_name: []const u8) ![]u8 {
