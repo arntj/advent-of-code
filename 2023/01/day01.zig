@@ -1,5 +1,4 @@
 const std = @import("std");
-const fmt = std.fmt;
 const fs = std.fs;
 const heap = std.heap;
 const mem = std.mem;
