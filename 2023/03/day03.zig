@@ -23,7 +23,9 @@ pub fn main() !void {
         lines.deinit();
     }
 
-    const part_1 = try solver.solve_part_1(lines.items);
+    const part_1 = try solver.solvePart1(lines.items);
+    const part_2 = try solver.solvePart2(allocator, lines.items);
 
     print("Part 1 result: {d}\n", .{part_1});
+    print("Part 2 result: {d}\n", .{part_2});
 }
