@@ -27,7 +27,7 @@ pub fn main() !void {
 
     const solution = solver.solve(games);
 
-    print("Day 1 solution: {d}\nDay 2 solution: {d}\n", .{ solution[0], solution[1] });
+    print("Part 1 solution: {d}\nPart 2 solution: {d}\n", .{ solution[0], solution[1] });
 }
 
 fn readFile(allocator: mem.Allocator, file_name: []const u8) ![]u8 {
