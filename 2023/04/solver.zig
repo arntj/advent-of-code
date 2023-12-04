@@ -19,6 +19,8 @@ pub fn solve_part_1(cards: []parser.Card) u32 {
 
 pub fn solve_part_2(allocator: mem.Allocator, cards: []parser.Card) !u32 {
     const card_copies: []u32 = try allocator.alloc(u32, cards.len);
+    defer allocator.free(card_copies);
+
     @memset(card_copies, 1);
 
     for (0..cards.len) |i| {
