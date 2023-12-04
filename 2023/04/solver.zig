@@ -23,6 +23,8 @@ pub fn solve_part_2(allocator: mem.Allocator, cards: []parser.Card) !u32 {
 
     @memset(card_copies, 1);
 
+    var solution: u32 = 0;
+
     for (0..cards.len) |i| {
         const card = cards[i];
         const winning_cards = count_winning_numbers(card);
@@ -30,11 +32,9 @@ pub fn solve_part_2(allocator: mem.Allocator, cards: []parser.Card) !u32 {
         for (1..winning_cards + 1) |j| {
             card_copies[i + j] += card_copies[i];
         }
+
+        solution += card_copies[i];
     }
-
-    var solution: u32 = 0;
-
-    for (card_copies) |copies| solution += copies;
 
     return solution;
 }
