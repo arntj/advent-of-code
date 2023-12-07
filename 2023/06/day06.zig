@@ -15,7 +15,7 @@ pub fn main() !void {
     const input = try stdin.readAllAlloc(allocator, 1024);
     defer allocator.free(input);
 
-    const races = try parse_input(allocator, input);
+    const races = try parseInput(allocator, input);
     defer {
         allocator.free(races.distances);
         allocator.free(races.times);
@@ -27,7 +27,7 @@ pub fn main() !void {
     try stdout.print("Part 2 solution: {d}\n", .{solution[1]});
 }
 
-fn parse_input(allocator: mem.Allocator, input: []u8) !solver.Races {
+fn parseInput(allocator: mem.Allocator, input: []u8) !solver.Races {
     var times = std.ArrayList(u64).init(allocator);
     var distances = std.ArrayList(u64).init(allocator);
 

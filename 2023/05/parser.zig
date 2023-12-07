@@ -19,7 +19,7 @@ pub const Almanac = struct {
     maps: []const Map,
 };
 
-pub fn parse_almanac(allocator: mem.Allocator) !Almanac {
+pub fn parseAlmanac(allocator: mem.Allocator) !Almanac {
     const stdin = io.getStdIn().reader();
 
     var buffer: [1024]u8 = undefined;
@@ -72,7 +72,7 @@ pub fn parse_almanac(allocator: mem.Allocator) !Almanac {
     };
 }
 
-pub fn free_almanac(allocator: mem.Allocator, almanac: Almanac) void {
+pub fn freeAlmanac(allocator: mem.Allocator, almanac: Almanac) void {
     for (almanac.maps) |map| {
         allocator.free(map.name);
         allocator.free(map.ranges);

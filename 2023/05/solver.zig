@@ -42,7 +42,7 @@ pub fn solve(allocator: mem.Allocator, almanac: parser.Almanac) ![2]i64 {
             for (0..unit_ranges.items.len) |i| {
                 const curr_range = unit_ranges.items[i] orelse continue;
 
-                if (get_overlap(curr_range, range)) |overlap| {
+                if (getOverlap(curr_range, range)) |overlap| {
                     if (overlap.start > curr_range.start) {
                         try unit_ranges.append(UnitRange{
                             .start = curr_range.start,
@@ -98,7 +98,7 @@ const Overlap = struct {
     end: i64,
 };
 
-fn get_overlap(unit_range: UnitRange, range: parser.Range) ?Overlap {
+fn getOverlap(unit_range: UnitRange, range: parser.Range) ?Overlap {
     const range_end = range.source + range.len - 1;
 
     if (range.source > unit_range.end or range_end < unit_range.start) return null;

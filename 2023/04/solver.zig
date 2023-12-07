@@ -2,11 +2,11 @@ const std = @import("std");
 const parser = @import("./parser.zig");
 const mem = std.mem;
 
-pub fn solve_part_1(cards: []parser.Card) u32 {
+pub fn solvePart1(cards: []parser.Card) u32 {
     var solution: u32 = 0;
 
     for (cards) |card| {
-        const winning_numbers = count_winning_numbers(card);
+        const winning_numbers = countWinningNumbers(card);
 
         if (winning_numbers > 0) {
             const score: u32 = @as(u32, 1) << (winning_numbers - 1);
@@ -17,7 +17,7 @@ pub fn solve_part_1(cards: []parser.Card) u32 {
     return solution;
 }
 
-pub fn solve_part_2(allocator: mem.Allocator, cards: []parser.Card) !u32 {
+pub fn solvePart2(allocator: mem.Allocator, cards: []parser.Card) !u32 {
     const card_copies: []u32 = try allocator.alloc(u32, cards.len);
     defer allocator.free(card_copies);
 
@@ -27,7 +27,7 @@ pub fn solve_part_2(allocator: mem.Allocator, cards: []parser.Card) !u32 {
 
     for (0..cards.len) |i| {
         const card = cards[i];
-        const winning_cards = count_winning_numbers(card);
+        const winning_cards = countWinningNumbers(card);
 
         for (1..winning_cards + 1) |j| {
             card_copies[i + j] += card_copies[i];
@@ -39,7 +39,7 @@ pub fn solve_part_2(allocator: mem.Allocator, cards: []parser.Card) !u32 {
     return solution;
 }
 
-fn count_winning_numbers(card: parser.Card) u5 {
+fn countWinningNumbers(card: parser.Card) u5 {
     var result: u5 = 0;
     for (card.winning_numbers) |winning_number| {
         for (card.numbers_you_have) |number| {
