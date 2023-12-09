@@ -1,9 +1,7 @@
 const std = @import("std");
 const desert_map = @import("./desert_map.zig");
-const fmt = std.fmt;
 const heap = std.heap;
 const io = std.io;
-const mem = std.mem;
 
 pub fn main() !void {
     var gpa = heap.GeneralPurposeAllocator(.{}){};
