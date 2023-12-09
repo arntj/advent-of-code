@@ -34,6 +34,6 @@ pub fn main() !void {
 
     const solution = oasis.extrapolate_values(lines);
 
-    try stdout.print("Part 1 solution: {d}\n", .{solution[0]});
-    try stdout.print("Part 2 solution: {d}\n", .{solution[1]});
+    try stdout.print("Part 1 solution: {d}\n", .{solution[1]});
+    try stdout.print("Part 2 solution: {d}\n", .{solution[0]});
 }
