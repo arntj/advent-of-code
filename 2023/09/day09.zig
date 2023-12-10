@@ -32,7 +32,7 @@ pub fn main() !void {
         allocator.free(lines);
     }
 
-    const solution = oasis.extrapolate_values(lines);
+    const solution = oasis.extrapolateValues(lines);
 
     try stdout.print("Part 1 solution: {d}\n", .{solution[1]});
     try stdout.print("Part 2 solution: {d}\n", .{solution[0]});
