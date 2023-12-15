@@ -18,7 +18,7 @@ pub fn hashmap(allocator: std.mem.Allocator, str: []const u8) !u32 {
 
     while (instructions.next()) |instr| {
         if (instr[instr.len - 1] == '-') {
-            const label = try alloc.dupe(u8, instr[0 .. instr.len - 1]);
+            const label = instr[0 .. instr.len - 1];
             const i = hash(label);
             const lenses_in_box = &boxes[i];
 
@@ -36,24 +36,19 @@ pub fn hashmap(allocator: std.mem.Allocator, str: []const u8) !u32 {
             }
         } else {
             var parts = std.mem.splitScalar(u8, instr, '=');
-            const label = try alloc.dupe(u8, parts.next().?);
+            const label = parts.next().?;
             const i = hash(label);
             const lenses_in_box = boxes[i];
 
             const focal_length_str = parts.next().?;
             const focal_length = try std.fmt.parseInt(u8, focal_length_str, 10);
 
-            var found: bool = false;
-
             for (lenses_in_box) |*lens| {
                 if (std.mem.eql(u8, label, lens.label)) {
                     lens.focal_length = focal_length;
-                    found = true;
                     break;
                 }
-            }
-
-            if (!found) {
+            } else {
                 var new_lenses_in_box = try alloc.alloc(Lens, lenses_in_box.len + 1);
                 @memcpy(new_lenses_in_box[0..lenses_in_box.len], lenses_in_box);
                 new_lenses_in_box[lenses_in_box.len] = Lens{
@@ -62,11 +57,6 @@ pub fn hashmap(allocator: std.mem.Allocator, str: []const u8) !u32 {
                 };
                 boxes[i] = new_lenses_in_box;
             }
-        }
-
-        for (0..boxes.len) |i| {
-            const box = boxes[i];
-            if (box.len == 0) continue;
         }
     }
 

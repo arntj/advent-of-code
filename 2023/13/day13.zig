@@ -10,7 +10,6 @@ pub fn main() !void {
     const stdout = std.io.getStdOut().writer();
 
     var patterns_list = std.ArrayList([][]const u8).init(allocator);
-
     var curr_pattern = std.ArrayList([]u8).init(allocator);
 
     while (try stdin.readUntilDelimiterOrEofAlloc(allocator, '\n', 1024)) |line| {
@@ -28,4 +27,11 @@ pub fn main() !void {
     const result = mirrors.getReflections(patterns);
     try stdout.print("Part 1 solution: {d}\n", .{result[0]});
     try stdout.print("Part 2 solution: {d}\n", .{result[1]});
+
+    for (patterns) |pattern| {
+        for (pattern) |line| {
+            allocator.free(line);
+        }
+        allocator.free(pattern);
+    }
 }

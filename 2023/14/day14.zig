@@ -34,8 +34,8 @@ pub fn main() !void {
 
         const str = try plat.toString(allocator);
 
-        if (memo.contains(str)) {
-            const cycle_length = i - memo.get(str).?;
+        if (memo.get(str)) |prev_i| {
+            const cycle_length = i - prev_i;
             while (i + cycle_length < cycles) i += cycle_length;
         } else {
             try memo.put(str, i);
