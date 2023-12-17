@@ -97,7 +97,7 @@ pub const CityMap = struct {
                                 if (next_heat_loss.* > curr_heat_loss.*) next_heat_loss.* = curr_heat_loss.*;
                             }
                         }
-                        if (y < self.rows - i) {
+                        if (y + i < self.rows) {
                             const curr_heat_loss = &heat_loss[@intFromEnum(Direction.s)];
                             curr_heat_loss.* += self.heat_loss[y + i][x];
 
@@ -115,7 +115,7 @@ pub const CityMap = struct {
                                 if (next_heat_loss.* > curr_heat_loss.*) next_heat_loss.* = curr_heat_loss.*;
                             }
                         }
-                        if (x < self.cols - i) {
+                        if (x + i < self.cols) {
                             const curr_heat_loss = &heat_loss[@intFromEnum(Direction.e)];
                             curr_heat_loss.* += self.heat_loss[y][x + i];
 
