@@ -16,6 +16,4 @@ pub fn main() !void {
 
     try stdout.print("Part 1 solution: {d}\n", .{try sorter.sortParts()});
     try stdout.print("Part 2 solution: {d}\n", .{try sorter.findRanges(allocator)});
-
-    _ = try sorter.findRanges(allocator);
 }
