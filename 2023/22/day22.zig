@@ -14,10 +14,6 @@ pub fn main() !void {
     const all_bricks = try bricks.parseBricks(allocator, input);
     defer allocator.free(all_bricks);
 
-    // for (all_bricks) |brick| {
-    //     try stdout.print("{d},{d},{d}~{d},{d},{d}\n", .{ brick.from.x, brick.from.y, brick.from.z, brick.to.x, brick.to.y, brick.to.z });
-    // }
-
     const solution = try bricks.fallingBricks(allocator, all_bricks);
 
     try stdout.print("Part 1 solution: {d}\n", .{solution[0]});
