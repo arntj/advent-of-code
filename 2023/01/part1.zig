@@ -54,11 +54,13 @@ test "complex multiline testcase" {
 }
 
 pub fn part1Solver(text: []const u8) u32 {
+    // Iterate over each line in input.
     var iter = mem.tokenizeScalar(u8, text, '\n');
 
     var sum: u32 = 0;
 
     while (iter.next()) |line| {
+        // Iterate over each character and find first and last number.
         var first: ?u8 = null;
         var last: u8 = 0;
 
@@ -72,6 +74,7 @@ pub fn part1Solver(text: []const u8) u32 {
             }
         }
 
+        // Add number from this line to the final sum.
         sum += (first orelse 0) * 10 + last;
     }
 

@@ -14,6 +14,31 @@ pub const Round = struct {
     blue: u8,
 };
 
+test "Parses input correctly" {
+    const allocator = std.testing.allocator;
+
+    const data =
+        \\Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+        \\Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+    ;
+
+    const result = try parseGames(allocator, data);
+    defer freeGames(allocator, result);
+
+    try std.testing.expectEqual(@as(usize, 2), result.len);
+
+    try std.testing.expectEqual(@as(u8, 1), result[0].id);
+    try std.testing.expectEqual(@as(usize, 3), result[0].rounds.len);
+    try std.testing.expectEqual(@as(u8, 4), result[0].rounds[0].red);
+    try std.testing.expectEqual(@as(u8, 0), result[0].rounds[2].blue);
+
+    try std.testing.expectEqual(@as(u8, 2), result[1].id);
+    try std.testing.expectEqual(@as(usize, 3), result[1].rounds.len);
+    try std.testing.expectEqual(@as(u8, 1), result[1].rounds[0].blue);
+    try std.testing.expectEqual(@as(u8, 1), result[1].rounds[1].red);
+}
+
+// Parses the string input into data structures that can be used for solving.
 pub fn parseGames(allocator: mem.Allocator, input: []const u8) ![]const Game {
     var games = std.ArrayList(Game).init(allocator);
 

@@ -93,22 +93,28 @@ const numbers = [_][]const u8{
 };
 
 pub fn part2Solver(text: []const u8) u32 {
+    // Iterate over each line.
     var iter = mem.tokenizeScalar(u8, text, '\n');
 
     var sum: u32 = 0;
 
     while (iter.next()) |line| {
+        // Iterate over each character and find first and last number in line.
+        // Variables for first and last number in line.
         var first: ?u8 = null;
         var last: u8 = 0;
 
+        // Iterate over each character and find numbers (word or digit) that starts on that char.
         for (0..line.len) |index| {
-            var curr: ?u8 = null;
+            var found_number: ?u8 = null;
 
             const c = line[index];
 
             if (c >= '0' and c <= '9') {
-                curr = c - '0';
+                // If it's a digit then that's the number.
+                found_number = c - '0';
             } else {
+                // Check if this character is the first character of a number (word), if yes then that's the number for this position.
                 for (0..numbers.len) |num_i| {
                     const num = numbers[num_i];
 
@@ -117,14 +123,14 @@ pub fn part2Solver(text: []const u8) u32 {
                     const slice = line[index .. index + num.len];
 
                     if (mem.eql(u8, num, slice)) {
-                        curr = @as(u8, @truncate(num_i));
+                        found_number = @as(u8, @truncate(num_i));
                         break;
                     }
                 }
             }
 
-            if (first == null) first = curr;
-            if (curr) |curr_num| last = curr_num;
+            if (first == null) first = found_number;
+            if (found_number) |curr_num| last = curr_num;
         }
 
         sum += (first orelse 0) * 10 + last;
