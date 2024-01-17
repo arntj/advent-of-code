@@ -10,19 +10,20 @@ pub fn main() !void {
     const allocator = gpa.allocator();
 
     const stdin = io.getStdIn().reader();
-    var lines = std.ArrayList([]const u8).init(allocator);
 
-    while (try stdin.readUntilDelimiterOrEofAlloc(allocator, '\n', 1024)) |line| {
+    // Read input directly from stdin.
+    const input = try stdin.readAllAlloc(allocator, 1024 * 1024);
+    defer allocator.free(input);
+
+    var lines = std.ArrayList([]const u8).init(allocator);
+    defer lines.deinit();
+
+    var input_iter = std.mem.splitScalar(u8, input, '\n');
+    while (input_iter.next()) |line| {
         try lines.append(line);
     }
 
-    defer {
-        for (lines.items) |line| {
-            allocator.free(line);
-        }
-        lines.deinit();
-    }
-
+    // Find the solution and print it.
     const solution = try solver.solve(allocator, lines.items);
 
     print("Part 1 result: {d}\n", .{solution[0]});
