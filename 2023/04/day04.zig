@@ -24,8 +24,8 @@ pub fn main() !void {
         allocator.free(cards);
     }
 
-    const solution_part_1 = solver.solve_part_1(cards);
-    const solution_part_2 = try solver.solve_part_2(allocator, cards);
+    const solution_part_1 = solver.solvePart1(cards);
+    const solution_part_2 = try solver.solvePart2(allocator, cards);
 
     try stdout.print("Part 1 result: {d}\n", .{solution_part_1});
     try stdout.print("Part 2 result: {d}\n", .{solution_part_2});
