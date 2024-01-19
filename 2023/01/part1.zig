@@ -60,7 +60,8 @@ pub fn part1Solver(text: []const u8) u32 {
     var sum: u32 = 0;
 
     while (iter.next()) |line| {
-        // Iterate over each character and find first and last number.
+        // Iterate over each character and find first and last number in line.
+        // Variables for first and last number in line.
         var first: ?u8 = null;
         var last: u8 = 0;
 
