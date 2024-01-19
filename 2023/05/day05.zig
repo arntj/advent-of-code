@@ -10,8 +10,8 @@ pub fn main() !void {
 
     const stdout = io.getStdOut().writer();
 
-    const almanac = try parser.parse_almanac(allocator);
-    defer parser.free_almanac(allocator, almanac);
+    const almanac = try parser.parseAlmanac(allocator);
+    defer parser.freeAlmanac(allocator, almanac);
 
     const solution = try solver.solve(allocator, almanac);
 

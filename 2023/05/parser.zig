@@ -10,7 +10,6 @@ pub const Range = struct {
 };
 
 pub const Map = struct {
-    name: []const u8,
     ranges: []const Range,
 };
 
@@ -19,6 +18,7 @@ pub const Almanac = struct {
     maps: []const Map,
 };
 
+// Parses almanac from stdin. Caller owns the returned memory.
 pub fn parseAlmanac(allocator: mem.Allocator) !Almanac {
     const stdin = io.getStdIn().reader();
 
@@ -28,23 +28,27 @@ pub fn parseAlmanac(allocator: mem.Allocator) !Almanac {
     var seeds_list = std.ArrayList(i64).init(allocator);
     var seeds_iter = mem.tokenizeScalar(u8, first_line, ' ');
 
-    // skip the "seeds: " part
+    // Skip the "seeds: " part.
     _ = seeds_iter.next();
 
+    // Parse the initial seeds.
     while (seeds_iter.next()) |seed_str| {
         try seeds_list.append(try fmt.parseInt(i64, seed_str, 10));
     }
 
     const seeds = try seeds_list.toOwnedSlice();
 
-    // skip newline
+    // Skip newline.
     _ = try stdin.readUntilDelimiterOrEof(&buffer, '\n');
 
     var maps = std.ArrayList(Map).init(allocator);
 
+    // Parse the mappings.
     while (try stdin.readUntilDelimiterOrEof(&buffer, '\n')) |line| {
-        var name_iter = mem.splitScalar(u8, line, ' ');
-        const name = try allocator.dupe(u8, name_iter.first());
+        // Skip the name of the mapping.
+        _ = line;
+
+        // Parse the ranges.
         var ranges = std.ArrayList(Range).init(allocator);
 
         while (try stdin.readUntilDelimiterOrEof(&buffer, '\n')) |range_line| {
@@ -61,7 +65,6 @@ pub fn parseAlmanac(allocator: mem.Allocator) !Almanac {
         }
 
         try maps.append(Map{
-            .name = name,
             .ranges = try ranges.toOwnedSlice(),
         });
     }
@@ -74,7 +77,6 @@ pub fn parseAlmanac(allocator: mem.Allocator) !Almanac {
 
 pub fn freeAlmanac(allocator: mem.Allocator, almanac: Almanac) void {
     for (almanac.maps) |map| {
-        allocator.free(map.name);
         allocator.free(map.ranges);
     }
 
